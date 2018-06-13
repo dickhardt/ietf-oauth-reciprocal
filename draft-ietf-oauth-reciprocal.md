@@ -1,6 +1,5 @@
 ---
 title: Reciprocal OAuth
-abbrev: I-D
 docname: draft-ietf-oauth-reciprocal-latest
 date: 2018-05-26
 category: std
@@ -92,6 +91,10 @@ Party B MUST respond with either an HTTP 200 (OK) response if the request is val
 
 Party B then plays the role of the client to make an access token request per {{RFC6749}} 4.1.3.
 
+# Authorization Update Flow
+
+After the initial authorization, the user may add or remove scopes available to the client at the authorization server. For example, the user may grant additional scopes to the client using a voice interface, or revoke some scopes. The authorization server can update the client with the new authorization by sending a new authorization code per 3.2. 
+
 # IANA Considerations
 
 TBD.
@@ -107,5 +110,8 @@ TBD.
 ## draft-ietf-oauth-reciprical-00
 
 - Initial version.
+
+## draft-ietf-oauth-reciprical-01
+
 
 
