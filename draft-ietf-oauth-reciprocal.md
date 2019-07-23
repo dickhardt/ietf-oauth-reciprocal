@@ -1,7 +1,7 @@
 ---
 title: Reciprocal OAuth
 docname: draft-ietf-oauth-reciprocal-latest
-date: 2019-07-03
+date: 2019-07-23
 category: std
 ipr: trust200902
 area: Security
@@ -33,6 +33,9 @@ In the usual three legged, authorization code grant, the OAuth flow enables a re
 
 Reciprocal OAuth simplifies the user experience by eliminating the redirections in the second OAuth flow. After the intial OAuth flow, party A obtains consent from the user to grant party B access to a protected resource at party A, and then passes an authorization code to party B using the access token party A obtained from party B to provide party B the context of the user. Party B then exchanges the authorization code for an access token per the usual OAuth flow.
 
+For example, a user would like their voice assistant (party A) and music service (party B) to work together. The voice assistant wants to call the music service to play music, and the music service wants to call the voice assistant with music information to present to the user. The user starts the OAuth flow at the voice assistant, and is redirected to the music service. The music services obtains consent from the user and the redirects back to the voice assistant. At this point the voice assistant is able to obtain an access token for the music service. The voice assistant can the get consent from the user to authorize the music service to access the voice assistant, and then the voice assistant can create an authorization code and send it to the music service, which then exchanges the authorization code for an access token, all without further user interaction. Note that either the voice assistant or the music service can initiate the flow, so that either can prompt the user for the two parties to work together.
+
+
 ## Terminology
 
 In this document, the key words "MUST", "MUST NOT", "REQUIRED",
@@ -40,7 +43,7 @@ In this document, the key words "MUST", "MUST NOT", "REQUIRED",
 and "OPTIONAL" are to be interpreted as described in BCP 14, RFC 2119
 {{RFC2119}}.
 
-# Reciprocol Protocol Flow
+# reciprocal Protocol Flow
 
      Party A                                         Party B
      +---------------+                               +---------------+
@@ -51,42 +54,44 @@ and "OPTIONAL" are to be interpreted as described in BCP 14, RFC 2119
      |   Client A    |
      |               |                               +---------------+
      |               |--(C)-- Authorization Grant -->|               |
-     |               |                               | Authorization |    
+     |               |                               | Authorization |
      |               |<-(D)---- Access Token B ------|   Server B    |
-     |               |       Reciprocol Request      |               |
+     |               |       reciprocal Request      |               |
      +---------------+                               +---------------+
             |
-    Reciprocol Request
+    reciprocal Request
             V
      +---------------+                               +---------------+
      |   Resource    |                               | Authorization |
-     |   Owner A     |--(E)--- Reciprocol Grant ---->|   Server B    |
+     |   Owner A     |--(E)--- reciprocal Grant ---->|   Server B    |
      |               |          Access Token B       |               |
      +---------------+                               +---------------+
                                                              |
-                                                     Reciprocol Grant
+                                                     reciprocal Grant
                                                              V
      +---------------+                               +---------------+
-     |               |<-(F)--- Reciprocol Grant -----|               |
-     | Authorization |                               |   Client B    | 
+     |               |<-(F)--- reciprocal Grant -----|               |
+     | Authorization |                               |   Client B    |
      |  Server A     |--(G)---- Access Token A ----->|               |
      +---------------+                               +---------------+
 
-     Figure 1: Abstract Reciprocol Protocol Flow 
+     Figure 1: Abstract reciprocal Protocol Flow
 
-The reciprocol authorization between party A and party B are abstractly represented in Figure 1 and includes the following steps:
+The reciprocal authorization between party A and party B are abstractly represented in Figure 1 and includes the following steps:
 
 - (A - C) are the same as in [RFC6749] 1.2
 
-- (D)     Party B optionally includes the reciprocol scope in the response.  
+- (D)     Party B optionally includes the reciprocal scope in the response.
           See {{request}} for details.
 
-- (E)     Party A sends the reciprocol authorization grant to party B.  
+- (E)     Party A sends the reciprocal authorization grant to party B.
           See {{code}} for details.
 
-- (F)     Party B requests an access token, mirroring step (B) 
+- (F)     Party B requests an access token, mirroring step (B)
 
 - (G)     Party A issues an access token, mirroring step (C)
+
+Note that Resource Owner A and Resource Owner B are the respective resource owner interaction systems controlled by the same owner.
 
 ## Reciprocal Scope Request {#request}
 
@@ -143,13 +148,13 @@ Party A generates an authorization code representing the access granted to party
     grant_type REQUIRED
         Value MUST be set to "urn:ietf:params:oauth:grant-type:reciprocal".
 
-    code REQUIRED  
+    code REQUIRED
         the authorization code generated by party A.
 
-    client_id REQUIRED 
+    client_id REQUIRED
         party A'a client ID.
 
-   access_token REQUIRED 
+   access_token REQUIRED
         the access token obtained from Party B. Used by Party B to identify which user authorization is being requested.
 
 For example, the client makes the following HTTP request using TLS (with extra line breaks for display purposes only):
@@ -159,9 +164,9 @@ For example, the client makes the following HTTP request using TLS (with extra l
      Authorization: Basic ej4hsyfishwssjdusisdhkjsdksusdhjkjsdjk
      Content-Type: application/x-www-form-urlencoded
 
-     grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3reciprocal  
-       &code=hasdyubasdjahsbdkjbasd  
-       &client_id=example.com  
+     grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3reciprocal
+       &code=hasdyubasdjahsbdkjbasd
+       &client_id=example.com
        &access_token=sadadojsadlkjasdkljxxlkjdas
 
 Party B MUST verify the authentication provided by Party A per {{RFC6749}} 2.3
@@ -188,14 +193,20 @@ TBD.
 
 # Document History
 
-## draft-ietf-oauth-reciprical-00
+## draft-ietf-oauth-reciprocal-00
 
 - Initial version.
 
-## draft-ietf-oauth-reciprical-01
+## draft-ietf-oauth-reciprocal-01
 
 - Changed reciprocal scope request to be in access token response rather than authorization request
 
-## draft-ietf-oauth-reciprical-02
+## draft-ietf-oauth-reciprocal-02
 
 - Added in diagram to clarify protocol flow
+
+## draft-ietf-oauth-reciprocal-03
+
+- fixed spelling of reciprocal
+- added example use case in introduction
+- Q: actual resource owner may be the same in Party A and Party B
