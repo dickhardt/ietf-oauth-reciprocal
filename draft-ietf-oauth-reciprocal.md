@@ -209,4 +209,4 @@ TBD.
 
 - fixed spelling of reciprocal
 - added example use case in introduction
-- Q: actual resource owner may be the same in Party A and Party B
+- resource owner is the same in Party A and Party B
