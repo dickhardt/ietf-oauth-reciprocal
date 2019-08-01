@@ -18,6 +18,7 @@ normative:
   RFC2119:
   RFC6749:
   RFC6750:
+  RFC6755:
 
 informative:
 
@@ -183,11 +184,25 @@ After the initial authorization, the user may add or remove scopes available to 
 
 # IANA Considerations
 
-TBD.
+## Registration of reciprocal
 
-# Acknowledgements
+This section registers the value "reciprocal" in the IANA "OAuth Parameters" registry established by "The OAuth 2.0 Authorization Framework" [RFC6749].
 
-TBD.
+- Parameter Name: reciprocal
+- Parameter usage location: token response
+- Change Controller: IESG
+- Specification Document: Section {{request}} of this document
+
+
+##Sub-Namespace Registration of urn:ietf:params:oauth:grant-type:reciprocal
+
+This section registers the value "grant-type:reciprocal" in the IANA
+"OAuth URI" registry established by "An IETF URN Sub-Namespace for OAuth" [RFC6755].
+
+- URN: urn:ietf:params:oauth:grant-type:reciprocal
+- Common Name: reciprocal grant for OAuth 2.0
+- Change Controller: IESG
+- Specification Document: Section {{code}} of this document
 
 --- back
 
@@ -210,3 +225,7 @@ TBD.
 - fixed spelling of reciprocal
 - added example use case in introduction
 - resource owner is the same in Party A and Party B
+
+## draft-ietf-oauth-reciprocal-04
+
+- completed IANA section
