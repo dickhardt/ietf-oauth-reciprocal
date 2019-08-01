@@ -1,7 +1,7 @@
 ---
 title: Reciprocal OAuth
 docname: draft-ietf-oauth-reciprocal-latest
-date: 2019-07-23
+date: 2019-08-01
 category: std
 ipr: trust200902
 area: Security
